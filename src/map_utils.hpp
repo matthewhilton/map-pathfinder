@@ -17,5 +17,5 @@ public:
     MapUtils();
     ~MapUtils();
 
-    static void process_map(Ref<BitMap> map);
+    static Array process_map(Ref<BitMap> map);
 };

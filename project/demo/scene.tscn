@@ -7,4 +7,4 @@
 script = ExtResource("1_lih0m")
 test_image = ExtResource("2_aeba3")
 
-[node name="MyNode" type="MyNode" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="."]

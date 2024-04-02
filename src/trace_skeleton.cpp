@@ -21,7 +21,7 @@
 //================================
 // PARAMS
 //================================
-#define CHUNK_SIZE 2           // the chunk size
+#define CHUNK_SIZE 10           // the chunk size
 #define SAVE_RECTS 1            // additionally save bounding rects of chunks (for visualization)
 #define MAX_ITER 999            // maximum number of iterations
 

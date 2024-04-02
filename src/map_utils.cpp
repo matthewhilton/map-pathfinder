@@ -22,38 +22,43 @@ MapUtils::~MapUtils()
 {
 }
 
-void MapUtils::process_map(Ref<BitMap> map) {
+Array MapUtils::process_map(Ref<BitMap> map) {
     UtilityFunctions::print("Processing map");
-
-    // Convert image into byte buffer that can be read by opencv.
-    Ref<Image> temp_image = map->convert_to_image();
-    PackedByteArray buffer = temp_image->get_data();
-
     skeleton_tracer_t* T = new skeleton_tracer_t();
     T->W = 1024;
     T->H = 1024;
 
     T->im = (unsigned char*)malloc(sizeof(unsigned char)*T->W*T->H);
-    memcpy(T->im, buffer.ptrw(), buffer.size());
+
+    // memcpy does not seem to work, but reading the bits directly does.
+    for(int x = 0; x < T->W; x++){
+        for(int y = 0; y < T->H; y++) {
+            T->im[y * T->W + x] = map->get_bit(x,y);
+        }
+    }
+    T->thinning_zs(); // perform raster thinning
 
     skeleton_tracer_t::polyline_t* p =  (skeleton_tracer_t::polyline_t*)T->trace_skeleton(0, 0, T->W, T->H, 0);
 
     // https://github.com/LingDong-/skeleton-tracing/blob/master/cpp/example2.cpp
-    int count = 0;
+    Array polyline_array = Array();
     skeleton_tracer_t::polyline_t* it = p; //iterator
     while(it){
         skeleton_tracer_t::point_t* jt = it->head;
+        Array points = Array();
         while(jt){
-            UtilityFunctions::print(jt->x, " ", jt->y);
-         count++;
-        jt = jt->next;
+            Vector2 point = Vector2(jt->x, jt->y);
+            points.append(point);
+            jt = jt->next;
         }
+        polyline_array.append(points);
         it = it->next;
     }
 
-    unsigned char first = buffer.ptr()[0];
-    unsigned char last = buffer.ptr()[1024*1024];
-    UtilityFunctions::print("polyline count: ", count, " first ", first, " last ", last);
-    
-    // TODO cleanup.
+    // Cleanup.
+    std::free(T->im);
+    T->destroy_polylines(p);
+    T->destroy_rects();
+
+    return polyline_array;
 }
