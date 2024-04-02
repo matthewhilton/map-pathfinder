@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7u64tpv6byvb"]
+[gd_scene load_steps=3 format=3 uid="uid://c7u64tpv6byvb"]
 
 [ext_resource type="Script" path="res://demo/scene.gd" id="1_lih0m"]
+[ext_resource type="Image" uid="uid://bgwq8vaqq1vkx" path="res://map.png" id="2_aeba3"]
 
 [node name="Scene" type="Node"]
 script = ExtResource("1_lih0m")
+test_image = ExtResource("2_aeba3")
 
 [node name="MyNode" type="MyNode" parent="."]
