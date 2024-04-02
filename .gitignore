@@ -1,6 +1,7 @@
 # Objects.
 .scons-cache/
 *.os
+*.obj
 
 # SConstruct
 .sconf_temp
@@ -12,3 +13,5 @@
 
 # Editors
 .vscode/
+*.pdb
+.vs/

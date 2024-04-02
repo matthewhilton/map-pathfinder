@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/godot.hpp>
 
+#include "map_utils.hpp"
 #include "my_node.hpp"
 #include "my_singleton.hpp"
 
@@ -19,6 +20,7 @@ void gdextension_initialize(ModuleInitializationLevel p_level)
 	{
 		ClassDB::register_class<MyNode>();
 		ClassDB::register_class<MySingleton>();
+		ClassDB::register_class<MapUtils>();
 
 		_my_singleton = memnew(MySingleton);
 		Engine::get_singleton()->register_singleton("MySingleton", MySingleton::get_singleton());
