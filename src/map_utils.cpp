@@ -25,8 +25,8 @@ MapUtils::~MapUtils()
 Array MapUtils::process_map(Ref<BitMap> map) {
     UtilityFunctions::print("Processing map");
     skeleton_tracer_t* T = new skeleton_tracer_t();
-    T->W = 1024;
-    T->H = 1024;
+    T->W = map->get_size().x;
+    T->H = map->get_size().y;
 
     T->im = (unsigned char*)malloc(sizeof(unsigned char)*T->W*T->H);
 
@@ -36,13 +36,13 @@ Array MapUtils::process_map(Ref<BitMap> map) {
             T->im[y * T->W + x] = map->get_bit(x,y);
         }
     }
-    T->thinning_zs(); // perform raster thinning
+    T->thinning_zs();
 
     skeleton_tracer_t::polyline_t* p =  (skeleton_tracer_t::polyline_t*)T->trace_skeleton(0, 0, T->W, T->H, 0);
 
-    // https://github.com/LingDong-/skeleton-tracing/blob/master/cpp/example2.cpp
+    // Based off https://github.com/LingDong-/skeleton-tracing/blob/master/cpp/example2.cpp
     Array polyline_array = Array();
-    skeleton_tracer_t::polyline_t* it = p; //iterator
+    skeleton_tracer_t::polyline_t* it = p;
     while(it){
         skeleton_tracer_t::point_t* jt = it->head;
         Array points = Array();
