@@ -15,7 +15,13 @@ This uses a skeletonisation script by LingDong, available here: https://github.c
 ## Useful functions
 
 ### `process_map`
+
 Given a bitmap, converts it into polylines (Array of Vector2is that connect to each other)
 
 ### `convert_to_astar`
+
 Converts polylines (usually generated from above function) into an [AStar2D](https://en.wikipedia.org/wiki/A*_search_algorithm) graph
+
+## Support
+
+I provide this repository in the hopes it is useful to you. However, please not I do not intend to support it outside of any modifications needed for my projects.
