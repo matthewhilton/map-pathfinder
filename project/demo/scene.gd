@@ -19,3 +19,6 @@ func _ready() -> void:
 			line.add_point(vector)
 		
 		add_child(line)
+	
+	var astar = MapUtils.convert_to_astar(results)
+	print(astar)

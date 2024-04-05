@@ -4,6 +4,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/bit_map.hpp>
 #include <godot_cpp/classes/ref.hpp>
+#include <godot_cpp/classes/a_star2d.hpp>
 
 using namespace godot;
 
@@ -18,4 +19,5 @@ public:
     ~MapUtils();
 
     static Array process_map(Ref<BitMap> map);
+    static AStar2D convert_to_astar(Array polylines);
 };

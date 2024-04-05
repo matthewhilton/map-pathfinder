@@ -5,6 +5,7 @@
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/ref.hpp>
+#include <godot_cpp/classes/a_star2d.hpp>
 #include "trace_skeleton.cpp"
 
 using namespace godot;
@@ -20,6 +21,29 @@ MapUtils::MapUtils()
 
 MapUtils::~MapUtils()
 {
+}
+
+AStar2D MapUtils::convert_to_astar(Array polylines) {
+    AStar2D temp = AStar2D();
+    int id_count = 0;
+
+    for(int i = 0; i < polylines.size(); i++) {
+        Array line_points = polylines[i];
+        
+        for(int j = 0; j < line_points.size(); j++) {
+            // Add point, and connect to previous.
+            temp.add_point(id_count, line_points[j]);
+            id_count++;
+
+            if (j != 0) {
+                temp.connect_points(id_count - 1, id_count);
+            }
+        }
+    }
+
+    // TODO find any ends are near each other, and connect them as well.
+
+    return temp;
 }
 
 Array MapUtils::process_map(Ref<BitMap> map) {
