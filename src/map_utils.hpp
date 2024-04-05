@@ -19,5 +19,5 @@ public:
     ~MapUtils();
 
     static Array process_map(Ref<BitMap> map);
-    static AStar2D convert_to_astar(Array polylines);
+    static Ref<AStar2D> convert_to_astar(Array polylines);
 };

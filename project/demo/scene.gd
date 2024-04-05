@@ -3,9 +3,6 @@ extends Node
 @export var test_image: Image
 
 func _ready() -> void:
-	print("Hello GDScript!")
-	MySingleton.hello_singleton()
-	
 	var map = BitMap.new()
 	map.create(Vector2i(1024,1024))
 	map.create_from_image_alpha(test_image)
@@ -20,5 +17,8 @@ func _ready() -> void:
 		
 		add_child(line)
 	
+	print(results)
 	var astar = MapUtils.convert_to_astar(results)
+	
+	print("Astar:")
 	print(astar)

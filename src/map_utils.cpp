@@ -12,7 +12,8 @@ using namespace godot;
 
 void MapUtils::_bind_methods()
 {
-    ClassDB::bind_static_method("MapUtils", D_METHOD("process_map"), &MapUtils::process_map);
+    ClassDB::bind_static_method("MapUtils", D_METHOD("process_map", "map"), &MapUtils::process_map);
+    ClassDB::bind_static_method("MapUtils", D_METHOD("convert_to_astar", "polylines"), &MapUtils::convert_to_astar);
 }
 
 MapUtils::MapUtils()
@@ -23,8 +24,10 @@ MapUtils::~MapUtils()
 {
 }
 
-AStar2D MapUtils::convert_to_astar(Array polylines) {
-    AStar2D temp = AStar2D();
+Ref<AStar2D> MapUtils::convert_to_astar(Array polylines) {
+    Ref<AStar2D> temp;
+    temp.instantiate();
+
     int id_count = 0;
 
     for(int i = 0; i < polylines.size(); i++) {
@@ -32,11 +35,12 @@ AStar2D MapUtils::convert_to_astar(Array polylines) {
         
         for(int j = 0; j < line_points.size(); j++) {
             // Add point, and connect to previous.
-            temp.add_point(id_count, line_points[j]);
+            Vector2i map_point = line_points[j];
+            temp->add_point(id_count, Vector2(map_point));
             id_count++;
 
             if (j != 0) {
-                temp.connect_points(id_count - 1, id_count);
+                temp->connect_points(id_count - 1, id_count);
             }
         }
     }
