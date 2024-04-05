@@ -37,11 +37,12 @@ Ref<AStar2D> MapUtils::convert_to_astar(Array polylines) {
             // Add point, and connect to previous.
             Vector2i map_point = line_points[j];
             temp->add_point(id_count, Vector2(map_point));
-            id_count++;
-
+            
             if (j != 0) {
                 temp->connect_points(id_count - 1, id_count);
             }
+
+            id_count++;
         }
     }
 
