@@ -18,6 +18,6 @@ public:
     MapUtils();
     ~MapUtils();
 
-    static Array process_map(Ref<BitMap> map);
+    static Array process_map(Ref<Image> map);
     static Ref<AStar2D> convert_to_astar(Array polylines);
 };

@@ -51,7 +51,7 @@ Ref<AStar2D> MapUtils::convert_to_astar(Array polylines) {
     return temp;
 }
 
-Array MapUtils::process_map(Ref<BitMap> map) {
+Array MapUtils::process_map(Ref<Image> map) {
     UtilityFunctions::print("Processing map");
     skeleton_tracer_t* T = new skeleton_tracer_t();
     T->W = map->get_size().x;
@@ -62,7 +62,7 @@ Array MapUtils::process_map(Ref<BitMap> map) {
     // memcpy does not seem to work, but reading the bits directly does.
     for(int x = 0; x < T->W; x++){
         for(int y = 0; y < T->H; y++) {
-            T->im[y * T->W + x] = map->get_bit(x,y);
+            T->im[y * T->W + x] = map->get_pixel(x,y).r > 0.0;
         }
     }
     T->thinning_zs();
@@ -80,7 +80,24 @@ Array MapUtils::process_map(Ref<BitMap> map) {
             points.append(point);
             jt = jt->next;
         }
-        polyline_array.append(points);
+        
+        // The polylines are usually very close to one another (except the start and end)
+        // So in this case, combine them.
+        Array points_combined = Array();
+        for(int i = 0; i < points.size(); i++) {
+            // Start and end are left untouched.
+            if (i == 0 || i == (points.size() - 1)) {
+                points_combined.append(points[i]);
+            }
+
+            Vector2 avg = (Vector2(points[i]) + Vector2(points[i + 1])) / 2.0;
+            points_combined.append(avg);
+
+            // Only do every second.
+            i++;
+        }
+
+        polyline_array.append(points_combined);
         it = it->next;
     }
 
